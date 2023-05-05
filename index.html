@@ -9,14 +9,74 @@
     <title>Library</title>
 </head>
 <body>
-    <table class="bookshelf">
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Publisher</th>
-            <th scope="col">Release Date</th>
-            <th scope="col">Available</th>
-        </tr>
-    </table>
+    <div class="container">
+        <div class="sidebar">
+            <button class="register" type="button">Register a Book</button>
+        </div>
+        <table class="book-table">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Release Date</th>
+                <th scope="col">Pages</th>
+                <th scope="col">Available</th>
+                <th scope="col">Already Read</th>
+            </tr>
+        </table>
+    </div>
+    <div class="form-background hidden">
+        <div class="form-container">
+            <form id="book-registration">
+                <div class="field">
+                    <label for="title">
+                        <span>Title: </span>
+                        <span aria-hidden="true" aria-label="required">*</span>
+                    </label>
+                    <input id="title" type="text" name="title">
+                </div>
+                <div class="field">
+                    <label for="author">
+                        <span>Author: </span>
+                        <span aria-hidden="true" aria-label="required">*</span>
+                    </label>
+                    <input id="author" type="text" name="author">
+                </div>
+                <div class="field">
+                    <label for="publisher">
+                        <span>Publisher: </span>
+                    </label>
+                    <input id="publisher" type="text" name="publisher">
+                </div>
+                <div class="field">
+                    <label for="pages">
+                        <span>Pages: </span>
+                    </label>
+                    <input id="pages" type="number" name="pages">
+                </div>
+                <div class="field">
+                    <label for="release-date">
+                        <span>Release Date: </span>
+                    </label>
+                    <input id="release-date" type="date" name="release-date">
+                </div>
+                <div class="field">
+                    <label for="available">
+                        <span>Available: </span>
+                        <span aria-hidden="true" aria-label="required">*</span>
+                    </label>
+                    <input id="available" type="checkbox" name="available">
+                </div>
+                <div class="field">
+                    <label for="already-read">
+                        <span>Already Read: </span>
+                        <span aria-hidden="true" aria-label="required">*</span>
+                    </label>
+                    <input id="already-read" type="checkbox" name="already-read">
+                </div>
+            </form>
+            <input form="book-registration" type="submit" value="Submit">
+        </div>
+    </div>
 </body>
 </html>
