@@ -21,6 +21,10 @@ function Book(title, author, publisher, releaseDate, pages, available, alreadyRe
   this.alreadyRead = alreadyRead;
 }
 
+Book.prototype.toggleReadStatus = function toggleStatus() {
+  this.alreadyRead = !this.alreadyRead;
+};
+
 const table = {
   rows: [],
   clear() {
@@ -34,14 +38,26 @@ const table = {
     this.rows.forEach(({ row }) => document.querySelector('.book-table').appendChild(row));
   },
   addRow(book) {
+    const row = document.createElement('tr');
     const headers = [...document.querySelectorAll('.book-table tr:first-child th')]
       .map(({ textContent }) => getCamelCase(textContent));
-    const row = document.createElement('tr');
+
     const cells = headers.map((header) => {
       const cell = document.createElement('td');
-      cell.textContent = (header in book) && (book[header] !== '')
-        ? book[header]
-        : '-';
+      if (header === 'read') {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = book.alreadyRead;
+        checkbox.addEventListener('click', () => {
+          book.toggleReadStatus();
+          checkbox.checked = book.alreadyRead;
+        });
+        cell.appendChild(checkbox);
+      } else {
+        cell.textContent = (header in book) && (book[header] !== '')
+          ? book[header]
+          : '-';
+      }
       return cell;
     });
     cells.forEach((cell) => row.appendChild(cell));
@@ -52,7 +68,7 @@ const table = {
       this.rows = this.rows.filter((r) => r.row !== row);
       this.update();
     });
-    row.appendChild(deletionButton);
+    row.appendChild(document.createElement('td').appendChild(deletionButton));
 
     this.rows.push({
       row,
@@ -109,7 +125,7 @@ function addBook({
       field = iterator.next();
     }
 
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('form input[type="checkbox"]');
     checkboxes.forEach((checkBox) => {
       const bookProperty = getCamelCase(checkBox.getAttribute('name'));
       const value = checkBox.checked;
