@@ -1,5 +1,16 @@
 const library = [];
 
+function getCamelCase(string) {
+  const words = string.toLowerCase().split(/[ -]/);
+  const firstWord = words[0];
+  const followingWords = words.slice(1).map((word) => {
+    const firstLetter = word.toLowerCase().split('')[0].toUpperCase();
+    const followingLetters = word.slice(1);
+    return [firstLetter, ...followingLetters].join('');
+  });
+  return [firstWord, ...followingWords].join('');
+}
+
 function Book(title, author, publisher, releaseDate, pages, available, alreadyRead) {
   this.title = title;
   this.author = author;
@@ -10,44 +21,45 @@ function Book(title, author, publisher, releaseDate, pages, available, alreadyRe
   this.alreadyRead = alreadyRead;
 }
 
-function getCamelCase(string) {
-  const wordList = string.toLowerCase().split(/[ -]/);
-  const firstWord = wordList[0];
-  const followingWords = wordList.slice(1).map((word) => {
-    const firstLetter = word.toLowerCase().split('')[0].toUpperCase();
-    const followingLetters = word.slice(1);
-    return [firstLetter, ...followingLetters].join('');
-  });
-  return [firstWord, ...followingWords].join('');
-}
-
-function clearTable() {
-  const books = document.querySelectorAll('.book-table tr:not(:first-child)');
-  books.forEach((book) => {
-    book.remove();
-  });
-}
-
-function updateDisplay() {
-  clearTable();
-
-  const headers = document.querySelectorAll('.book-table tr:first-child th');
-  const table = document.querySelector('.book-table');
-
-  library.forEach((book) => {
-    const row = document.createElement('tr');
-    table.appendChild(row);
-
-    headers.forEach(({ textContent }) => {
-      const key = getCamelCase(textContent);
-      const data = document.createElement('td');
-      data.textContent = (!(key in book) || book[key] === '')
-        ? '-'
-        : book[key];
-      row.appendChild(data);
+const table = {
+  rows: [],
+  clear() {
+    const rows = document.querySelectorAll('.book-table tr:not(:first-child)');
+    rows.forEach((row) => {
+      row.remove();
     });
-  });
-}
+  },
+  update() {
+    this.clear();
+    this.rows.forEach(({ row }) => document.querySelector('.book-table').appendChild(row));
+  },
+  addRow(book) {
+    const headers = [...document.querySelectorAll('.book-table tr:first-child th')]
+      .map(({ textContent }) => getCamelCase(textContent));
+    const row = document.createElement('tr');
+    const cells = headers.map((header) => {
+      const cell = document.createElement('td');
+      cell.textContent = (header in book) && (book[header] !== '')
+        ? book[header]
+        : '-';
+      return cell;
+    });
+    cells.forEach((cell) => row.appendChild(cell));
+
+    const deletionButton = document.createElement('button');
+    deletionButton.textContent = 'Delete';
+    deletionButton.addEventListener('click', () => {
+      this.rows = this.rows.filter((r) => r.row !== row);
+      this.update();
+    });
+    row.appendChild(deletionButton);
+
+    this.rows.push({
+      row,
+      book,
+    });
+  },
+};
 
 function addBook({
   title,
@@ -58,8 +70,10 @@ function addBook({
   available,
   alreadyRead,
 }) {
-  library.push(new Book(title, author, publisher, releaseDate, pages, available, alreadyRead));
-  updateDisplay();
+  const book = new Book(title, author, publisher, releaseDate, pages, available, alreadyRead);
+  library.push(book);
+  table.addRow(book);
+  table.update();
 }
 
 (function bringUpForm() {
@@ -81,26 +95,25 @@ function addBook({
 
 (function registerBook() {
   const form = document.querySelector('form');
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const book = {};
-
-    const formData = new FormData(e.target);
-    const iterator = formData.entries();
+    const iterator = new FormData(e.target).entries();
     let field = iterator.next();
     while (!field.done) {
-      const key = getCamelCase(field.value[0]);
+      const bookProperty = getCamelCase(field.value[0]);
       const value = field.value[1];
-      book[key] = value;
+      book[bookProperty] = value;
       field = iterator.next();
     }
 
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkBox) => {
-      const key = getCamelCase(checkBox.getAttribute('name'));
+      const bookProperty = getCamelCase(checkBox.getAttribute('name'));
       const value = checkBox.checked;
-      book[key] = value;
+      book[bookProperty] = value;
     });
 
     addBook(book);
