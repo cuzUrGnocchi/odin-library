@@ -27,20 +27,17 @@ Book.prototype.toggleReadStatus = function toggleStatus() {
 
 const table = {
   rows: [],
-  clear() {
-    const rows = document.querySelectorAll('.book-table tr:not(:first-child)');
-    rows.forEach((row) => {
-      row.remove();
-    });
-  },
   update() {
-    this.clear();
+    document.querySelectorAll('.book-table tr:not(:first-child)').forEach((tr) => {
+      tr.remove();
+    });
     this.rows.forEach(({ row }) => document.querySelector('.book-table').appendChild(row));
   },
   addRow(book) {
     const row = document.createElement('tr');
     const headers = [...document.querySelectorAll('.book-table tr:first-child th')]
-      .map(({ textContent }) => getCamelCase(textContent));
+      .map(({ textContent }) => getCamelCase(textContent))
+      .filter((header) => header !== '');
 
     const cells = headers.map((header) => {
       const cell = document.createElement('td');
@@ -60,7 +57,6 @@ const table = {
       }
       return cell;
     });
-    cells.forEach((cell) => row.appendChild(cell));
 
     const deletionButton = document.createElement('button');
     deletionButton.textContent = 'Delete';
@@ -68,12 +64,16 @@ const table = {
       this.rows = this.rows.filter((r) => r.row !== row);
       this.update();
     });
+
+    cells.forEach((cell) => row.appendChild(cell));
     row.appendChild(document.createElement('td').appendChild(deletionButton));
 
     this.rows.push({
       row,
       book,
     });
+
+    this.update();
   },
 };
 
@@ -89,7 +89,6 @@ function addBook({
   const book = new Book(title, author, publisher, releaseDate, pages, available, alreadyRead);
   library.push(book);
   table.addRow(book);
-  table.update();
 }
 
 (function bringUpForm() {

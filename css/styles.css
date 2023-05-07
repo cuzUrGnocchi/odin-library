@@ -4,21 +4,41 @@
     box-sizing: border-box;
 }
 
-:root {
-    --form-max-witdh: 800px;
-}
-
 .hidden {
     visibility: hidden;
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 100px 1fr;
+    display: flex;
+    flex-direction: column;    
 }
 
-.sidebar {
+.header {
+    display: flex;
+    justify-content: end;
     position: sticky;
+    top: 0;
+    height: 60px;
+    background-color: white;
+}
+
+.register {
+    align-self: center;
+    margin-right: 30px;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+tr {
+    display: grid;
+    grid-template-columns: 200fr 150fr repeat(2, 100fr) repeat(4, 70fr);
+}
+
+td {
+    text-align: center;
 }
 
 .form-background {
@@ -31,7 +51,7 @@
     grid-template-columns: minmax(100px, 1fr) clamp(400px, 60%, 650px) minmax(70px, 1fr);
     align-items: center;
     background-color: rgba(0, 0, 0, 0.9);
-}
+} 
 
 .form-container {
     grid-column: 2;
