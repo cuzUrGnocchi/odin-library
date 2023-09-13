@@ -5,30 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/styles.css">
-    <script src="./js/script.js" defer></script>
+    <script src="./js/Book.js" type="module"></script>
+    <script src="./js/library.js" type="module"></script>
+    <script src="./js/view.js" type="module" defer></script>
     <title>Library</title>
 </head>
 <body>
-    <div class="container">
+    <div class="page">
         <div class="header">
-            <button class="register" type="button">Register a Book</button>
+            <button class="form-summoner" type="button">Register a Book</button>
         </div>
-        <table class="book-table">
-            <tr>
-                <th class="title-header" scope="col">Title</th>
-                <th class="author-header" scope="col">Author</th>
-                <th class="publisher-header" scope="col">Publisher</th>
-                <th class="release-header" scope="col">Release Date</th>
-                <th class="pages-header" scope="col">Pages</th>
-                <th class="available-header" scope="col">Available</th>
-                <th class="read-header" scope="col">Read</th>
-                <th class="delete-header" scope="col"></th>
-            </tr>
-        </table>
+        <table class="table"></table>
     </div>
-    <div class="form-background hidden">
-        <div class="form-container">
-            <form id="book-registration">
+    <div class="background hidden">
+        <div class="form">
+            <form id="registration">
                 <div class="field">
                     <label for="title">
                         <span>Title: </span>
@@ -44,39 +35,14 @@
                     <input id="author" type="text" name="author">
                 </div>
                 <div class="field">
-                    <label for="publisher">
-                        <span>Publisher: </span>
-                    </label>
-                    <input id="publisher" type="text" name="publisher">
-                </div>
-                <div class="field">
-                    <label for="pages">
-                        <span>Pages: </span>
-                    </label>
-                    <input id="pages" type="number" name="pages">
-                </div>
-                <div class="field">
-                    <label for="release-date">
-                        <span>Release Date: </span>
-                    </label>
-                    <input id="release-date" type="date" name="release-date">
-                </div>
-                <div class="field">
-                    <label for="available">
-                        <span>Available: </span>
-                        <span aria-hidden="true" aria-label="required">*</span>
-                    </label>
-                    <input id="available" type="checkbox" name="available">
-                </div>
-                <div class="field">
-                    <label for="already-read">
+                    <label for="was-read">
                         <span>Already Read: </span>
                         <span aria-hidden="true" aria-label="required">*</span>
                     </label>
-                    <input id="already-read" type="checkbox" name="already-read">
+                    <input id="was-read" type="checkbox" name="was-read">
                 </div>
             </form>
-            <input form="book-registration" type="submit" value="Submit">
+            <input form="registration" type="submit" value="Done">
         </div>
     </div>
 </body>

@@ -4,11 +4,19 @@
     box-sizing: border-box;
 }
 
+th, td, #registration, input[type="text"] {
+    font-size: 15px;
+}
+
+.form-summoner, input[type="submit"] {
+    font-size: 13px;
+}
+
 .hidden {
     visibility: hidden;
 }
 
-.container {
+.page {
     display: flex;
     flex-direction: column;
     min-width: 750px;
@@ -25,9 +33,10 @@
     background-color: white;
 }
 
-.register {
+.form-summoner {
     align-self: center;
-    margin-right: 30px;
+    margin-right: 70px;
+    padding: 2px 7px;
 }
 
 th, td {
@@ -37,7 +46,7 @@ th, td {
 
 tr {
     display: grid;
-    grid-template-columns: 200fr 150fr repeat(2, 100fr) repeat(4, 70fr);
+    grid-template-columns: 200fr 150fr 100fr 70fr;
     padding: 0 40px;
 }
 
@@ -45,7 +54,7 @@ td {
     text-align: center;
 }
 
-.form-background {
+.background {
     position: absolute;
     top: 0;
     left: 0;
@@ -57,14 +66,14 @@ td {
     background-color: rgba(0, 0, 0, 0.9);
 } 
 
-.form-container {
+.form {
     grid-column: 2;
     background-color: white;
     display: flex;
     flex-direction: column;
 }
 
-form {
+#registration {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -77,7 +86,7 @@ form {
     gap: 5px;
 }
 
-#available, #already-read {
+#was-read {
     align-self: start;
 }
 
